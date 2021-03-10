@@ -25,7 +25,7 @@ module.exports = class User {
         ]);
     }
 
-    buy() {
+    buy_from_cart() {
         return Promise.all([this.get_all_cart_items(), this.get_credits()])
             .then((data) => {
                 const items = data[0].rows;
@@ -51,14 +51,6 @@ module.exports = class User {
                             ON CONFLICT (user_id, item_id) 
                             DO UPDATE SET quantity = EXCLUDED.quantity + orders.quantity`,
                             [this.user_id, item.item_id, item.quantity]
-                        )
-                    );
-                });
-                items.forEach((item) => {
-                    queries.push(
-                        pool.query(
-                            "UPDATE products SET quantity = quantity - $1 WHERE id = $2",
-                            [item.quantity, item.item_id]
                         )
                     );
                 });

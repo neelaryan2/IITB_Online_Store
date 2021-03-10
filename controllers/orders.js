@@ -17,7 +17,7 @@ exports.get_test = (req, res, next) => {
 exports.post_test = (req, res, next) => {
     const id = parseInt(req.body.product_id);
     const user = new User(1);
-    user.buy()
+    user.buy_from_cart()
         .then(() => {
             res.redirect("/orders");
         })

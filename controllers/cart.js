@@ -20,9 +20,17 @@ exports.get_test = (req, res, next) => {
 exports.post_test = (req, res, next) => {
     const id = parseInt(req.body.product_id);
     const item = new CartItem(id);
-    item.add_to_cart()
-        .then(() => {
-            res.redirect("/cart");
+    item.is_valid()
+        .then((valid) => {
+            if (valid) {
+                item.add_to_cart()
+                    .then(() => {
+                        res.redirect("/cart");
+                    })
+                    .catch((err) => console.log(err));
+            } else {
+                res.redirect("/prods");
+            }
         })
         .catch((err) => console.log(err));
 };

@@ -7,14 +7,12 @@ module.exports = class Prod {
         this.quantity = quantity;
     }
 
-    get_new_id() {
-        return pool.query("SELECT MAX(id + 1) FROM products");
-    }
-
-    add_prod(id) {
+    add_prod() {
         return pool.query(
-            "INSERT INTO products(title, price, image, quantity, id) VALUES ($1, $2, $3, $4, $5);",
-            [this.title, this.price, this.image, this.quantity, id]
+            `WITH T AS ((SELECT id FROM products) UNION (SELECT 0 AS id))
+            INSERT INTO products(title, price, image, quantity, id) 
+            VALUES ($1, $2, $3, $4, (SELECT MAX(T.id + 1) FROM T));`,
+            [this.title, this.price, this.image, this.quantity]
         );
     }
     static get_all() {
