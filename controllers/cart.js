@@ -29,6 +29,7 @@ exports.post_test = (req, res, next) => {
                     })
                     .catch((err) => console.log(err));
             } else {
+                console.log("Product not in stock.");
                 res.redirect("/prods");
             }
         })

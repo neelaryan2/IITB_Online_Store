@@ -30,7 +30,7 @@ module.exports = class CartItem {
             ])
             .then((result) => {
                 if (result.rows.length != 1) {
-                    throw new Error("Invalid  Product");
+                    throw new Error("Invalid Product");
                 }
                 return result.rows[0].quantity >= this.quantity;
             })
