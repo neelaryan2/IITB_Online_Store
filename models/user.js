@@ -35,7 +35,8 @@ module.exports = class User {
                     cost += item.quantity * item.price;
                 });
                 if (credits < cost) {
-                    throw new Error("Insufficient funds");
+                    console.log("Insufficient funds");
+                    return Promise.all([]);
                 }
                 var queries = [];
                 queries.push(
